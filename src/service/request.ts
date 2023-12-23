@@ -1,4 +1,5 @@
 import axios from "axios";
+import qs from 'qs'
 import type {
   AxiosResponse,
   CreateAxiosDefaults,
@@ -7,13 +8,16 @@ import type {
 import { baseURL, timeout } from "./config";
 import router from "@/router";
 import pinia from "@/store";
-import users from "@/store/user";
-const useStore = users(pinia);
+import { user } from "@/store/user";
+import { showToast } from "vant";
+const { token, info: _info } = storeToRefs(user(pinia))
 
 const config = {
   baseURL,
   timeout,
 };
+
+const urlsFormdata = ['/bank/common/auth/face-temp']
 
 class Request {
   service;
@@ -24,7 +28,8 @@ class Request {
         return {
           ...config,
           headers: {
-            Authorization: localStorage.getItem("TOKEN"),
+            Authorization: `Bearer ${token.value}`,
+            "Content-Type": urlsFormdata.includes(config.url as string) ? 'multipart/form-data' : 'application/json'
           },
         } as InternalAxiosRequestConfig;
       },
@@ -34,19 +39,17 @@ class Request {
     );
     this.service.interceptors.response.use(
       (config: AxiosResponse<any, any>) => {
-        // const { errcode }: any = config.data
-        // if (errcode !== ResMsg.errcode)
-        //   ElMessage.error('操作失败')
-        if (config.data.errmsg === "token error") {
-          // token错误
-          // 清空token状态
-          setTimeout(() => {
-            window.location.replace("/login");
-          }, 1000);
-        } else if (config.data.errmsg === "error") {
-          router.push("/500");
+        const { code, message, data, ...res } = config.data
+        if (code === 0 || code === 200) {
+          if (data) {
+            return data
+          } else {
+            return res
+          }
+        } else {
+          showToast(message)
+          return Promise.reject(new Error(message))
         }
-        return config;
       },
       (error: any) => {
         Promise.reject(error);
@@ -54,20 +57,33 @@ class Request {
     );
   }
 
-  get(url: string, params?: object) {
-    return this.service.get(url, { params });
+  get(url: string, params?: object): any {
+    return this.service.get(url, {
+      params, paramsSerializer: function (params) {
+        return qs.stringify(params, { arrayFormat: 'repeat' })
+      }
+    });
   }
 
-  post(url: string, params?: object) {
+  post(url: string, params?: object): any {
     return this.service.post(url, params);
   }
 
-  put(url: string, params?: object) {
+  put(url: string, params?: object): any {
     return this.service.put(url, params);
   }
 
-  delete(url: string, params?: object) {
+  delete(url: string, params?: object): any {
     return this.service.delete(url, { params });
+  }
+
+  other(method: string, url: string, data?: any, params?: any) {
+    return this.service({
+      method,
+      url,
+      data,
+      params
+    })
   }
 }
 

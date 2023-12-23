@@ -1,9 +1,9 @@
-import type { RouteRecordRaw } from "vue-router";
 import { createRouter, createWebHashHistory } from "vue-router";
 import * as _ from "lodash";
-// const token = ''
-// 引入组件
-// ...
+import { routes } from "./config";
+import { user } from '@/store/user'
+import pinia from "@/store";
+const userStore = user(pinia);
 
 // meta接口定义
 declare module "vue-router" {
@@ -14,23 +14,23 @@ declare module "vue-router" {
     auth?: boolean;
   }
 }
-const routes: Array<RouteRecordRaw> = [
-  // 组件路径
-  {
-    path: "/",
-    component: () => import("@/views/Layout/index.vue"),
-    redirect: "/home",
-    children: [
-      {
-        path: "/home",
-        component: () => import("@/views/Home/Home.vue"),
-      },
-    ],
-  },
-];
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes,
 });
+
+const notAuthPath = ['/auth', '/sign-in', '/sign-up', '/card', '/home', '/account']
+
+router.beforeEach((to, _from, next) => {
+  if (!notAuthPath.includes(to.path)) {
+    if (!!userStore.token) {
+      next()
+    } else {
+      next('/sign-in')
+    }
+  } else {
+    next()
+  }
+})
 
 export default router;

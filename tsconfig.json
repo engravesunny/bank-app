@@ -31,11 +31,12 @@
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",
-    "src/**/*.vue"
+    "src/**/*.vue",
+    "auto-imports.d.ts" // 此处引入该声明文件
   ],
   "references": [
     {
       "path": "./tsconfig.node.json"
     }
-  ]
+  ],
 }

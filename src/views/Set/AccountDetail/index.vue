@@ -8,7 +8,7 @@
                     <SvgIcon v-if="!open" @click="handleOpen" name="闭眼" width="16px" height="16px"></SvgIcon>
                 </div>
                 <div class="bottom">
-                    {{ open ? totalMoney : '******' }}
+                    {{ open ? formatMoney(totalMoney) : '******' }}
                 </div>
             </div>
         </div>
@@ -29,7 +29,7 @@
                             <div v-else class="nickname" @click="handleSetnickname(card.id)">{{ '设置别名' }}</div>
                         </div>
                         <div class="rest-money"><span style="font-size: 16px; font-weight: normal;">可用余额： ￥</span>{{
-                            card.balance }}</div>
+                            formatMoney(card.balance) }}</div>
                     </div>
                     <div class="right">
                         <div class="btn" @click="handleSetDefault(card.defaultAccount === 0, card)">{{ card.defaultAccount
@@ -54,6 +54,7 @@
 <script setup lang="ts">
 import { changeDefaultAccount, getBankCardAccountId, getMyTotalMoney, setAlias } from '@/service/api/bankMobileRelation'
 import { destroyBankCardAccount, getAccountInfoById, getCardIdById } from '@/service/api/bankAccount'
+import { formatMoney } from '@/utils';
 const router = useRouter()
 const cards = ref<{
     balance: string,

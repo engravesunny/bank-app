@@ -41,7 +41,7 @@
                         <SvgIcon v-else @click="handleOpen('资产')" name="闭眼" width="16px" height="16px"></SvgIcon>
                     </div>
                     <div class="bottom">
-                        {{ moneyOpen ? myMoney : '******' }}
+                        {{ moneyOpen ? formatMoney(myMoney) : '******' }}
                     </div>
                 </div>
             </div>
@@ -56,7 +56,7 @@
                         <SvgIcon v-else @click="handleOpen('收入')" name="闭眼" width="16px" height="16px"></SvgIcon>
                     </div>
                     <div class="bottom">
-                        {{ incomeOpen ? income : '******' }}
+                        {{ incomeOpen ? formatMoney(income) : '******' }}
                     </div>
                 </div>
                 <div class="zichan" style="width: 50%;">
@@ -67,7 +67,7 @@
                         <SvgIcon v-else @click="handleOpen('支出')" name="闭眼" width="16px" height="16px"></SvgIcon>
                     </div>
                     <div class="bottom">
-                        {{ outcomeOpen ? outcome : '******' }}
+                        {{ outcomeOpen ? formatMoney(outcome) : '******' }}
                     </div>
                 </div>
             </div>
@@ -88,6 +88,7 @@ const { token, info } = storeToRefs(user());
 const userStore = user()
 import { logout } from '@/service/api/mobileBankAccount';
 import { showToast } from 'vant';
+import { formatMoney } from '@/utils';
 const text_word = computed(() => {
     const hour = new Date().getHours();
     if (hour >= 0 && hour < 5) {

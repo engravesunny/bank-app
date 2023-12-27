@@ -13,3 +13,16 @@ export const formatDate = (date: Date) => {
     const day = date.getDate()
     return year + '-' + month + '-' + day
 }
+export const formatMoney = (money: any) => {
+    let trueMoney = (money / 100).toString()
+    if (trueMoney.includes('.')) {
+        if (trueMoney.split('.')[1].length === 1) {
+            return trueMoney + '0'
+        } else {
+            return trueMoney
+        }
+    } else {
+        return trueMoney + '.' + '00'
+    }
+
+}

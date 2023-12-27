@@ -26,9 +26,9 @@
                                         <template #value>
                                             <div class="top">{{ item.value }}</div>
                                             <span style="color: #000;">人民币元 </span><span style="color: rgb(43,130,102);">{{
-                                                item.type === 'input' ? ' ' + item.money :
+                                                item.type === 'input' ? ' ' + formatMoney(item.money) :
                                                 '- ' +
-                                                item.money }}</span>
+                                                formatMoney(item.money) }}</span>
                                         </template>
                                     </van-cell>
                                 </van-cell-group>
@@ -118,7 +118,7 @@
 import { ref } from 'vue'
 import { getAccountInfoById } from '@/service/api/bankAccount';
 import { getBankCardAccountId } from '@/service/api/bankMobileRelation';
-import { formatId, formatDate, days } from '@/utils'
+import { formatId, formatDate, days, formatMoney } from '@/utils'
 import { getTransferDetail } from '@/service/api/transfer';
 import { showToast } from 'vant';
 import { user } from '@/store/user';
@@ -205,7 +205,7 @@ const updateHistory = async () => {
         if (inOrCome.value !== 2) {
             records = records.filter((item: any) => item.ie === inOrCome.value)
         }
-        records = records.filter(item => item.money > minValue.value && item.money < maxValue.value)
+        records = records.filter(item => (item.money / 100) > minValue.value && (item.money / 100) < maxValue.value)
         if (transfererId.value) {
             records = records.filter(item => item.transfereeNum === transfererId.value || item.transferorNum === transfererId.value)
         }

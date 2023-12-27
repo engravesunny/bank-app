@@ -62,7 +62,8 @@ const onSubmit = () => {
             path: '/result',
             query: {
                 status: 'success',
-                result: route.query.text + '成功'
+                result: route.query.text + '成功',
+                changeInfo: 'true'
             }
         })
     } catch (error: any) {

@@ -16,8 +16,12 @@ const text = ref('')
 const status = ref('')
 const isOrder = ref('')
 const handleClick = () => {
+    if (isChangingInfo.value === 'true') {
+        router.push('/account')
+    }
     router.back()
 }
+const isChangingInfo = ref('')
 
 onMounted(async () => {
     text.value = route.query.result as string || ''
@@ -31,6 +35,7 @@ onMounted(async () => {
         status.value = data === 1 ? 'success' : 'failed'
         text.value = data === 1 ? '转账成功' : '转账失败'
     }
+    isChangingInfo.value = route.query.changeInfo as string
 })
 
 </script>

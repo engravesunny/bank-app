@@ -12,6 +12,9 @@ import { computed } from 'vue'
 
 const route = useRoute()
 const title = computed(() => {
+    if (route.query.text?.includes('重置')) {
+        return route.query.text as string
+    }
     return route.meta.title as string + (route.query.text ? route.query.text : '')
 })
 const handleBack = () => {

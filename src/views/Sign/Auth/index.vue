@@ -17,6 +17,8 @@
 </template>
 
 <script setup lang="ts">
+import { authNameId } from '@/service/api/bankAccount';
+import { showToast } from 'vant';
 import { ref } from 'vue'
 const router = useRouter()
 const route = useRoute()
@@ -26,18 +28,29 @@ const formData = ref({
     accountPWDConfirm: "",
     username: "",
     documentsNumber: "",
-    firstBankcardId: ""
+    firstBankcardId: "",
+    userInfoId: ""
 })
-const onSubmit = () => {
-    router.push({
-        path: '/card',
-        query: {
-            ...formData.value as any
-        }
-    })
+const onSubmit = async () => {
+    try {
+        const data = await authNameId({
+            firstAccountId: formData.value.firstBankcardId,
+            name: formData.value.username,
+            documentsNum: formData.value.documentsNumber
+        })
+        formData.value.userInfoId = data
+        router.push({
+            path: route.query.text ? '/change-info' : '/card',
+            query: {
+                ...formData.value as any
+            }
+        })
+    } catch (error) {
+        showToast('验证失败')
+    }
 }
 
-onMounted(() => {
+onMounted(async () => {
     formData.value = { ...route.query } as any
 })
 

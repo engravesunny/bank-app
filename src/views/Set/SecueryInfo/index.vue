@@ -56,11 +56,11 @@ const infos = [
         list: [
             {
                 title: '账户',
-                services: [{ title: '密码修改', path: '/change-info', query: { text: '修改账户密码' } }, { title: '密码重置', path: '/change-info', query: { text: '账户密码重置' } }]
+                services: [{ title: '密码修改', path: '/change-info', query: { text: '修改账户密码' } }, { title: '密码重置', path: '/sign-up', query: { text: '账户密码重置' } }]
             },
             {
                 title: '支付',
-                services: [{ title: '密码修改', path: '/change-info', query: { text: '支付密码修改' } }, { title: '密码重置', path: '/change-info', query: { text: '支付密码重置' } }]
+                services: [{ title: '密码修改', path: '/change-info', query: { text: '支付密码修改' } }, { title: '密码重置', path: '/sign-up', query: { text: '支付密码重置' } }]
             },
         ]
     },

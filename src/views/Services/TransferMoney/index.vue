@@ -17,7 +17,7 @@
             <div class="output-account">
                 <div class="top">付款账户</div>
                 <van-cell @click="showCards = !showCards" :title="formatId(curCards.card_id)"
-                    :label="'可用余额： ￥' + curCards.balance" is-link />
+                    :label="'可用余额： ￥' + formatMoney(curCards.balance)" is-link />
             </div>
             <div v-if="showInputCard" class="input-account">
                 <div class="top">收款账户</div>
@@ -51,7 +51,8 @@
                 <div class="output-account" @click="handleSelect(card.card_id)" v-for="card in cardItems"
                     :key="card.card_id">
                     <div style="padding: 20px;border-bottom: 1px solid gray;">
-                        <van-cell :title="formatId(curCards.card_id)" :label="'可用余额： ￥' + curCards.balance" is-link />
+                        <van-cell :title="formatId(curCards.card_id)" :label="'可用余额： ￥' + formatMoney(card.balance)"
+                            is-link />
                     </div>
                 </div>
             </van-popup>
@@ -62,7 +63,7 @@
 <script setup lang="ts">
 import { getAccountInfoById } from '@/service/api/bankAccount';
 import { getBankCardAccountId } from '@/service/api/bankMobileRelation';
-import { formatId } from '@/utils';
+import { formatId, formatMoney } from '@/utils';
 import { user } from '@/store/user';
 import { createTransferOrder, complete } from '@/service/api/transfer';
 import { showToast } from 'vant';

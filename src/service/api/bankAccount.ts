@@ -41,3 +41,18 @@ export const getAccountInfoById = (params: { bankcardIds: string[] }) => request
 
 // 根据手机号查询查询I类账户id
 export const getICardIdByPhoneNumber = (params: { phoneNumber: string; }) => request.get('/bank/bank/bankcard/first', params)
+
+// 姓名手机号校验
+export const authNameId = (params: {/**
+* 身份证号
+*/
+    documentsNum?: string;
+    /**
+    * 一类银行卡账户id
+    */
+    firstAccountId?: string;
+    /**
+    * 姓名
+    */
+    name?: string;
+}) => request.get('/bank/bank/bankcard/name-doc', params)

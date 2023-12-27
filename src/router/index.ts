@@ -19,7 +19,7 @@ const router = createRouter({
   routes,
 });
 
-const notAuthPath = ['/auth', '/sign-in', '/sign-up', '/card', '/home', '/account']
+const notAuthPath = ['/auth', '/sign-in', '/sign-up', '/card', '/home', '/services']
 
 router.beforeEach((to, _from, next) => {
   if (!notAuthPath.includes(to.path)) {

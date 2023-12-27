@@ -2,8 +2,8 @@
     <div class="auth-container">
         <div class="main-form">
             <van-form @submit="onSubmit">
-                <van-field v-model="formData.firstBankcardId" label="请输入银行卡号" name="银行卡号"
-                    :rules="[{ required: true, message: '请输入银行卡号' }]" />
+                <van-field v-model="formData.accountPWD" label="请输入账户密码" type="password" name="请输入账户密码"
+                    :rules="[{ required: true, message: '请输入账户密码' }]" />
                 <van-field v-model="formData.payPWD" label="请输入支付密码" type="password" name="请输入支付密码"
                     :rules="[{ required: true, message: '请输入支付密码' }]" />
                 <div style="margin: 16px;position: relative;">
